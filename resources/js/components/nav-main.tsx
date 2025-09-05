@@ -14,6 +14,7 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                             asChild
                             isActive={page.url.startsWith(typeof item.href === 'string' ? item.href : item.href.url)}
                             tooltip={{ children: item.title }}
+                            className='py-5 px-4'
                         >
                             <Link href={item.href} prefetch>
                                 {item.icon && <item.icon />}

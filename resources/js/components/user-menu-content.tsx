@@ -26,19 +26,23 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
                     <UserInfo user={user} showEmail={true} />
                 </div>
             </DropdownMenuLabel>
+
             <DropdownMenuSeparator />
-            <DropdownMenuGroup>
-                <DropdownMenuItem asChild>
+
+            <DropdownMenuGroup className='group'>
+                <DropdownMenuItem asChild className='group-hover:bg-[#08532e] group-hover:text-[#F2FF8F] cursor-pointer'>
                     <Link className="block w-full" href={edit()} as="button" prefetch onClick={cleanup}>
-                        <Settings className="mr-2" />
+                        <Settings className="mr-2 group-hover:text-[#F2FF8F]" />
                         Settings
                     </Link>
                 </DropdownMenuItem>
             </DropdownMenuGroup>
+
             <DropdownMenuSeparator />
-            <DropdownMenuItem asChild>
+            
+            <DropdownMenuItem asChild className='hover:bg-[#08532e] hover:text-[#F2FF8F] group cursor-pointer'>
                 <Link className="block w-full" href={logout()} as="button" onClick={handleLogout}>
-                    <LogOut className="mr-2" />
+                    <LogOut className="mr-2 group-hover:text-[#F2FF8F]" />
                     Log out
                 </Link>
             </DropdownMenuItem>
