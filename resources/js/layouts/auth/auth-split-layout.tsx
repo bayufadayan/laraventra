@@ -4,14 +4,15 @@ import { type SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
 import { LazyLoadImage } from 'react-lazy-load-image-component';
-import { register } from '@/routes';
+import { register, login } from '@/routes';
 
 interface AuthLayoutProps {
     title?: string;
     description?: string;
+    authType?: string;
 }
 
-export default function AuthSplitLayout({ children, title, description }: PropsWithChildren<AuthLayoutProps>) {
+export default function AuthSplitLayout({ children, title, description, authType }: PropsWithChildren<AuthLayoutProps>) {
     const { name, quote } = usePage<SharedData>().props;
 
     return (
@@ -23,6 +24,8 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
                             alt="Banner Starter 1"
                             src="/images/banner-starter-1.svg"
                             className="h-full w-full object-cover object-bottom transition-transform duration-500"
+                            draggable={false}
+                            onContextMenu={(e) => e.preventDefault()}
                         />
                     </figure>
                 </div>
@@ -49,6 +52,8 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
                             alt="Banner Starter 2"
                             src="/images/banner-starter-2.svg"
                             className="h-full w-full object-cover object-bottom transition-transform duration-500"
+                            draggable={false}
+                            onContextMenu={(e) => e.preventDefault()}
                         />
                     </figure>
                 </div>
@@ -58,12 +63,16 @@ export default function AuthSplitLayout({ children, title, description }: PropsW
                             alt="Banner Starter 3"
                             src="/images/banner-starter-3.svg"
                             className="h-full w-full mix-blend-lighten object-cover object-bottom transition-transform duration-500"
+                            draggable={false}
+                            onContextMenu={(e) => e.preventDefault()}
                         />
                     </figure>
                 </div>
-                <Link href={register()} className='bg-[#00f8be]/10 text-[#005B46] border border-[#005B46] px-6 py-2 self-end mx-8 z-20'>
-                    Register
-                </Link>
+                {authType && (
+                    <Link href={authType === 'Login' ? register() : login()} className='bg-[#00f8be]/10 text-[#005B46] border border-[#005B46] px-6 py-2 self-end mx-8 translate-y-4 z-20'>
+                        {authType === 'Login' ? 'Register' : 'Login'}
+                    </Link>
+                )}
                 <div className="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px] z-20">
                     <Link href={home()} className="relative z-20 flex items-center justify-center lg:hidden">
                         <AppLogoIcon className="h-10 fill-current text-black sm:h-12" />
