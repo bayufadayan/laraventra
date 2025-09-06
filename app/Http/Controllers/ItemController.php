@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class ItemController extends Controller
 {
@@ -12,7 +13,7 @@ class ItemController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('gallery/app');
     }
 
     /**
@@ -20,7 +21,7 @@ class ItemController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('gallery/create');
     }
 
     /**

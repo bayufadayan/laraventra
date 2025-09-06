@@ -139,3 +139,32 @@
         @apply bg-background text-foreground;
     }
 }
+
+/* Custom minimal scrollbar */
+.custom-scroll::-webkit-scrollbar {
+    width: 6px;
+    /* tipis */
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+    background: #f0f0f0;
+    /* light bg, biar nggak gelap */
+    border-radius: 10px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+    background: #cccccc;
+    /* abu soft */
+    border-radius: 10px;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb:hover {
+    background: #aaaaaa;
+    /* hover sedikit lebih gelap */
+}
+
+/* Firefox */
+.custom-scroll {
+    scrollbar-width: thin;
+    scrollbar-color: #cccccc #f0f0f0;
+}

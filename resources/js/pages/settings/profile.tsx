@@ -29,7 +29,7 @@ export default function Profile({ mustVerifyEmail, status }: { mustVerifyEmail: 
             <Head title="Profile settings" />
 
             <SettingsLayout>
-                <div className="space-y-6">
+                <div className="space-y-6 text-black">
                     <HeadingSmall title="Profile information" description="Update your name and email address" />
 
                     <Form
