@@ -14,7 +14,14 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::resource('gallery', ItemController::class);
+
+    Route::get('/leaderboard', function () {
+        return Inertia::render('leaderboard');
+    })->name('leaderboard');
+    Route::get('/search', function () {
+        return Inertia::render('search');
+    })->name('search');
 });
 
-require __DIR__.'/settings.php';
-require __DIR__.'/auth.php';
+require __DIR__ . '/settings.php';
+require __DIR__ . '/auth.php';
