@@ -48,20 +48,20 @@ export default function GalleryPage() {
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Gallery" />
             <div className="relative flex flex-col h-full flex-1 gap-4 overflow-x-auto rounded-xl p-4 text-neutral-900">
-                <div className='flex flex-col gap-0 w-full'>
+                <div className='flex flex-col gap-2 w-full !px-4 mt-2 text-[#005B46]'>
                     <h1 className='text-2xl font-bold'>Please add your absurd item</h1>
-                    <p>Absurd item it's can be anything. Then, we will evaluate and give you an absurdity score to boost ypur absurd things</p>
+                    <p className='lg:w-1/2 w-full'>Absurd item it's can be anything. Then, we will evaluate and give you an absurdity score to boost ypur absurd things</p>
                 </div>
                 <form action="">
                     <div className="relative grid grid-cols-1 lg:grid-cols-2 h-full flex-1 gap-4 overflow-x-auto rounded-xl p-4 text-neutral-900">
 
-                        <div className='border border-white/20 rounded-xl flex flex-col gap-4 bg-white'>
+                        <div className=''>
                             <Dropzone
                                 accept={{ 'image/*': ['.png', '.jpg', '.jpeg'] }}
                                 onDrop={handleDrop}
                                 onError={console.error}
                                 src={files}
-                                className='bg-blue-500 h-full w-full'
+                                className='h-full w-full !bg-[#00FF80]/10'
                             >
                                 <DropzoneEmptyState />
                                 <DropzoneContent>
@@ -111,8 +111,8 @@ export default function GalleryPage() {
                                         autoComplete="description"
                                         placeholder="Describe absurdly"
                                         className={cn(
-                                            "border border-[#005B46] rounded-lg placeholder:text-[#005B46]/70 focus-visible:outline-none selection:bg-[#00f8be] selection:text-[#005B46]",
-                                            "focus-visible:ring-[#00f8be] focus-visible:ring-opacity-10 focus-visible:border-[#00f8be]",
+                                            "border border-[#005B46] rounded-lg placeholder:text-[#005B46]/70 focus:outline-none selection:bg-[#00f8be] selection:text-[#005B46]",
+                                            "focus:ring-[#00f8be] focus:ring-opacity-10 focus:border-[#00f8be]",
                                             "custom-scroll"
                                         )}
                                     />

@@ -132,7 +132,7 @@ export const DropzoneContent = ({
 
   return (
     <div className={cn('flex flex-col items-center justify-center', className)}>
-      <div className="flex size-8 items-center justify-center rounded-md bg-muted text-muted-foreground">
+      <div className="flex size-8 items-center justify-center rounded-md ">
         <UploadIcon size={16} />
       </div>
       <p className="my-2 w-full truncate font-medium text-sm">
@@ -185,17 +185,17 @@ export const DropzoneEmptyState = ({
 
   return (
     <div className={cn('flex flex-col items-center justify-center', className)}>
-      <div className="flex size-8 items-center justify-center rounded-md bg-muted text-muted-foreground">
+      <div className="flex size-8 items-center justify-center rounded-md bg-[#005B46] text-white">
         <UploadIcon size={16} />
       </div>
-      <p className="my-2 w-full truncate text-wrap font-medium text-sm">
+      <p className="my-2 w-full truncate text-wrap font-semibold text-[#005B46] text-sm">
         Upload {maxFiles === 1 ? 'a file' : 'files'}
       </p>
-      <p className="w-full truncate text-wrap text-muted-foreground text-xs">
+      <p className="w-full truncate text-wrap text-xs text-[#005B46]/40">
         Drag and drop or click to upload
       </p>
       {caption && (
-        <p className="text-wrap text-muted-foreground text-xs">{caption}.</p>
+        <p className="text-wrap text-[#005B46]/40 text-xs">{caption}.</p>
       )}
     </div>
   );
