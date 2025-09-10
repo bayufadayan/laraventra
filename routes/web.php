@@ -15,7 +15,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
     })->name('dashboard');
 
     Route::prefix('gallery')->group(function () {
-        Route::get('/{id}', [PageController::class, 'detail_gallery']);
+        Route::get('/{id}', [PageController::class, 'detail_gallery'])->name('gallery.detail');
         Route::resource('item', ItemController::class);
     });
 

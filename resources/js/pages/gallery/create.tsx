@@ -1,5 +1,6 @@
 'use client';
 import React from 'react';
+import { useEffect } from "react"
 import AppLayout from '@/layouts/app-layout';
 import { type BreadcrumbItem } from '@/types';
 import { Head } from '@inertiajs/react';
@@ -7,6 +8,7 @@ import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { LoaderCircle } from 'lucide-react';
 import {
     Dropzone,
     DropzoneContent,
@@ -14,6 +16,9 @@ import {
 } from "@/components/ui/shadcn-io/dropzone"
 import { useState } from 'react';
 import { cn } from "@/lib/utils"
+import { useForm } from '@inertiajs/react';
+import { route } from 'ziggy-js';
+import { toast } from "sonner"
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -27,14 +32,22 @@ const breadcrumbs: BreadcrumbItem[] = [
 ];
 
 
-export default function GalleryPage() {
+export default function CreateItemPage() {
     const [files, setFiles] = useState<File[] | undefined>();
     const [filePreview, setFilePreview] = useState<string | undefined>();
+    const { setData, post, processing, errors, reset } = useForm({
+        title: '',
+        description: '',
+        image: null as File | null,
+    });
+
     const handleDrop = (files: File[]) => {
         console.log(files);
         setFiles(files);
         if (files.length > 0) {
             const reader = new FileReader();
+            const file = files[0];
+            setData("image", file)
             reader.onload = (e) => {
                 if (typeof e.target?.result === 'string') {
                     setFilePreview(e.target?.result);
@@ -44,6 +57,25 @@ export default function GalleryPage() {
         }
     };
 
+    const onSubmit = (e: React.FormEvent) => {
+        e.preventDefault();
+
+        post(route('item.store'), {
+            forceFormData: true,
+            onSuccess: () => {
+                reset();
+                setFiles(undefined);
+                setFilePreview(undefined);
+            }
+        });
+    }
+
+    useEffect(() => {
+        if (errors.image) {
+            toast.error(errors.image)
+        }
+    }, [errors.image])
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <Head title="Gallery" />
@@ -52,10 +84,9 @@ export default function GalleryPage() {
                     <h1 className='text-2xl font-bold'>Please add your absurd item</h1>
                     <p className='lg:w-1/2 w-full'>Absurd item it's can be anything. Then, we will evaluate and give you an absurdity score to boost ypur absurd things</p>
                 </div>
-                <form action="">
+                <form onSubmit={onSubmit}>
                     <div className="relative grid grid-cols-1 lg:grid-cols-2 h-full flex-1 gap-4 overflow-x-auto rounded-xl p-4 text-neutral-900">
-
-                        <div className=''>
+                        <div className='h-full w-full overflow-clip'>
                             <Dropzone
                                 accept={{ 'image/*': ['.png', '.jpg', '.jpeg'] }}
                                 onDrop={handleDrop}
@@ -91,12 +122,14 @@ export default function GalleryPage() {
                                         autoFocus
                                         tabIndex={1}
                                         autoComplete="title"
+                                        onChange={e => setData('title', e.target.value)}
                                         name="title"
                                         placeholder="Title of your item"
                                         className={cn("border border-[#005B46] py-5 rounded-lg placeholder:text-[#005B46]/70 focus-visible:outline-none selection:bg-[#00f8be] selection:text-[#005B46]",
                                             'focus-visible:ring-[#00f8be] focus-visible:ring-opacity-10 focus-visible:border-[#00f8be]'
                                         )}
                                     />
+                                    {errors.title && <p className="text-red-500">{errors.title}</p>}
                                 </div>
 
                                 <div className="grid gap-2 text-[#005B46]">
@@ -105,10 +138,10 @@ export default function GalleryPage() {
                                         id="description"
                                         name="description"
                                         required
-                                        autoFocus
                                         tabIndex={1}
                                         rows={5}
                                         autoComplete="description"
+                                        onChange={e => setData('description', e.target.value)}
                                         placeholder="Describe absurdly"
                                         className={cn(
                                             "border border-[#005B46] rounded-lg placeholder:text-[#005B46]/70 focus:outline-none selection:bg-[#00f8be] selection:text-[#005B46]",
@@ -116,10 +149,11 @@ export default function GalleryPage() {
                                             "custom-scroll"
                                         )}
                                     />
+                                    {errors.description && <p className="text-red-500">{errors.description}</p>}
                                 </div>
 
                                 <Button type="submit" className="mt-4 w-full bg-[#005B46] text-white py-5 hover:bg-amber-500 cursor-pointer" tabIndex={5}>
-                                    {/* {processing && <LoaderCircle className="h-4 w-4 animate-spin" />} */}
+                                    {processing && <LoaderCircle className="h-4 w-4 animate-spin" />}
                                     Create New Item
                                 </Button>
                             </div>

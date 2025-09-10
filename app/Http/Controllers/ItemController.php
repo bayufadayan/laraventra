@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Item;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
 
 class ItemController extends Controller
@@ -29,7 +32,37 @@ class ItemController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'title' => 'required|max:30|string',
+            'description' => 'required|string',
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        DB::beginTransaction();
+        try {
+            if ($request->hasFile('image')) {
+                $imagePath = $request->file('image')->store('images', 'public');
+                Item::create([
+                    'title' => $validated['title'],
+                    'description' => $validated['description'],
+                    'image_url' => $imagePath,
+                    'user_id' => Auth::id(),
+                ]);
+
+                DB::commit();
+                return redirect()
+                    ->route('gallery.detail', ['id' => Auth::id()])
+                    ->with('success', 'Item created successfully!');
+            }
+        } catch (\Exception $e) {
+            DB::rollBack();
+            $err = ValidationException::withMessages([
+                'system_error' => ['System Error!' . $e->getMessage()],
+            ]);
+
+            dd($err);
+            throw $err;
+        }
     }
 
     /**

@@ -16,6 +16,7 @@ class Item extends Model
         'description',
         'image_url',
         'absurditiy_score',
+        'user_id',
     ];
 
     public function user_id()
