@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('image_url');
             $table->float('absurditiy_score')->nullable();
             $table->foreignUlid('user_id');
+            $table->softDeletes();
             $table->timestamps();
         });
     }

@@ -8,29 +8,7 @@ import { Link } from '@inertiajs/react';
 // import { BookOpen, Folder } from 'lucide-react';
 import { LayoutGrid, Search, Trophy, Images } from 'lucide-react';
 import AppLogo from './app-logo';
-
-const mainNavItems: NavItem[] = [
-    {
-        title: 'Dashboard',
-        href: dashboard(),
-        icon: LayoutGrid,
-    },
-    {
-        title: 'Search',
-        href: '/search',
-        icon: Search,
-    },
-    {
-        title: 'Leaderboard',
-        href: '/leaderboard',
-        icon: Trophy,
-    },
-    {
-        title: 'Gallery',
-        href: '/gallery',
-        icon: Images,
-    },
-];
+import { usePage } from '@inertiajs/react';
 
 // const footerNavItems: NavItem[] = [
 //     {
@@ -46,6 +24,32 @@ const mainNavItems: NavItem[] = [
 // ];
 
 export function AppSidebar() {
+    const { auth } = usePage().props;
+    const user = (auth as { user?: { id?: string | number } })?.user;
+
+    const mainNavItems: NavItem[] = [
+        {
+            title: 'Dashboard',
+            href: dashboard(),
+            icon: LayoutGrid,
+        },
+        {
+            title: 'Search',
+            href: '/search',
+            icon: Search,
+        },
+        {
+            title: 'Leaderboard',
+            href: '/leaderboard',
+            icon: Trophy,
+        },
+        {
+            title: 'Gallery',
+            href: user ? `/gallery/${user.id}` : '/gallery',
+            icon: Images,
+        },
+    ];
+
     return (
         <Sidebar collapsible="icon" variant="inset" className=''>
             <SidebarHeader>

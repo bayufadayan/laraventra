@@ -9,6 +9,7 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import { Settings, ImagePlus, Star, Trophy } from 'lucide-react';
 import { Link } from '@inertiajs/react';
 import { route } from 'ziggy-js';
+import { User } from '@/types'
 
 const breadcrumbs: BreadcrumbItem[] = [
     {
@@ -17,9 +18,17 @@ const breadcrumbs: BreadcrumbItem[] = [
     },
 ];
 
-export default function GalleryPage() {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [columns, setColumns] = useState([
+
+interface Props {
+    user: User
+    items_count: number
+    sum_of_absurdity_score: number
+}
+
+
+export default function GalleryPage({ user, items_count, sum_of_absurdity_score }: Props) {
+    
+    const [columns] = useState([
         [
             {
                 src: "https://picsum.photos/600/800",
@@ -82,7 +91,7 @@ export default function GalleryPage() {
                         <figure className='w-36 h-full aspect-square overflow-hidden rounded-full'>
                             <LazyLoadImage
                                 alt="Banner Starter 1"
-                                src="/images/banner-starter-1.svg"
+                                src="/images/avatar-not-found.svg"
                                 className="h-full w-full object-cover object-bottom transition-transform duration-500"
                                 draggable={false}
                                 onContextMenu={(e) => e.preventDefault()}
@@ -90,18 +99,18 @@ export default function GalleryPage() {
                         </figure>
                         <div className='flex flex-col gap-0'>
                             <span className='flex gap-2 items-center'>
-                                <h1 className='text-2xl font-bold'>Muhamad Bayu Fadayan</h1>
+                                <h1 className='text-2xl font-bold'>{user.name}</h1>
                                 <Link href={route('profile.edit')}>
                                     <Settings className='size-5 text-black/60' />
                                 </Link>
                             </span>
                             <div className="flex flex-col gap-1">
                                 <div className='flex gap-1 text-neutral-500 text-sm'>
-                                    <p>bayufadayan@gmail.com</p>
+                                    <p>{user.email}</p>
                                 </div>
                                 <div className='flex gap-4 text-neutral-500 text-sm'>
-                                    <p>0 items</p>
-                                    <p className='flex gap-1 items-center'><Star className='size-4' /> 1242 points</p>
+                                    <p>{items_count || "0"} items</p>
+                                    <p className='flex gap-1 items-center'><Star className='size-4' /> {sum_of_absurdity_score || "0"} points</p>
                                     <p className='flex gap-1 items-center'><Trophy className='size-4' />4th Ranked</p>
                                 </div>
                             </div>
@@ -109,7 +118,7 @@ export default function GalleryPage() {
                     </div>
 
                     <div className='flex'>
-                        <Link href={route('gallery.create')} as="button">
+                        <Link href={route('item.create')} as="button">
                             <Button type="submit" className="bg-[#005B46] mt-4 w-full border border-[#005B46] text-white cursor-pointer hover:bg-[#005B46] hover:text-white hover:scale-105 transition-all duration-300 ease-in-out hover:-translate-y-1 hover:shadow-2xl hover:shadow-emerald-700" tabIndex={4}>
                                 <ImagePlus />Add new item
                             </Button>

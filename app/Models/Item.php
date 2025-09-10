@@ -18,7 +18,7 @@ class Item extends Model
         'absurditiy_score',
     ];
 
-    public function student()
+    public function user_id()
     {
         return $this->belongsTo(User::class, 'user_id');
     }

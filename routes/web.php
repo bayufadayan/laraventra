@@ -1,11 +1,12 @@
 <?php
 
 use App\Http\Controllers\ItemController;
+use App\Http\Controllers\PageController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
 Route::get('/', function () {
-    return Inertia::render('welcome');
+    return redirect('/login');
 })->name('home');
 
 Route::middleware(['auth', 'verified'])->group(function () {
@@ -13,7 +14,10 @@ Route::middleware(['auth', 'verified'])->group(function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
-    Route::resource('gallery', ItemController::class);
+    Route::prefix('gallery')->group(function () {
+        Route::get('/{id}', [PageController::class, 'detail_gallery']);
+        Route::resource('item', ItemController::class);
+    });
 
     Route::get('/leaderboard', function () {
         return Inertia::render('leaderboard');
